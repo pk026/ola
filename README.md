@@ -34,7 +34,9 @@ django, djangorestframework, celery, postgresql, redis
 or you can create database with your own set of parameters and update them into settings.py: DATABASES
 9. create database schema using: python manage.py migrate
 10. create a superuser: python manage.py createsuperuser
-11. run python manage.py runserver
+11. run: python manage.py runserver
+12. run: celery -A ola worker --app=ola.ola_celery:app --loglevel=info
+(on other terminal)
 
 # testbench
 # request a ride

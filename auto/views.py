@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from auto.models import Trip, Car
 from auto.serializers import TripSerializer, TripGetSerializer
-
+from auto.tasks import mark_complete
 
 class TripViewset(viewsets.ModelViewSet):
     queryset = Trip.objects.all()
@@ -63,6 +63,7 @@ class TripViewset(viewsets.ModelViewSet):
                 trip = trip.get_ride(trip.id, user_id, car.id)
                 car.status=Car.ON_TRIP
                 car.save()
+                mark_complete.apply_async((trip.id,), countdown=300)
                 serializer = self.get_serializer(trip)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(
