@@ -57,12 +57,12 @@ $(document).ready(function(){
             var ongoing = '</td><td>'
             if (data.ongoing[i]){
                 ongoing += 'Req Id: ' +
-                data.ongoing[i].id + ' cust id: ' + data.ongoing[i].user + ' request_time_lapsed: ' + data.ongoing[i].request_time_lapsed + ' ago Picked up' + data.ongoing[i].pickup_time_lapsed + "ago"
+                data.ongoing[i].id + ' cust id: ' + data.ongoing[i].user + ' request_time_lapsed: ' + data.ongoing[i].request_time_lapsed + ' ago Picked up ' + data.ongoing[i].pickup_time_lapsed + " ago"
             }
             var completed = '</td><td>'
             if (data.completed[i]){
                 completed += 'Req Id: ' +
-                data.completed[i].id + ' cust id: ' + data.completed[i].user + ' request_time_lapsed: ' + data.completed[i].request_time_lapsed + ' ago Picked up' + data.ongoing[i].pickup_time_lapsed + "ago Completed: " + data.ongoing[i].completed_time_lapsed + " ago"
+                data.completed[i].id + ' cust id: ' + data.completed[i].user + ' request_time_lapsed: ' + data.completed[i].request_time_lapsed + ' ago Picked up ' + data.ongoing[i].pickup_time_lapsed + " ago Completed: " + data.ongoing[i].completed_time_lapsed + " ago"
             }
             completed += '</td></tr>'
               trHTML += waiting + ongoing + completed
