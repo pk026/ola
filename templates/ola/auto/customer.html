@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<h1>Book a ride from here</h1>
+<form id="book_ride" method="post" name="book_ride">{% csrf_token %}
+    <input  id="user" name="user" placeholder="Your Custoper id" type="text" />
+    <button class="subscribe-box__btn" type="submit">Ride Now</button>
+</form>
+    <script type="text/javascript">
+    $("#book_ride").submit(function(e) {
+    e.preventDefault();
+    var frm = $("#book_ride");
+    var data = {};
+    $.each(this, function(i, v){
+        var input = $(v);
+        data[input.attr("name")] = input.val();
+        delete data["undefined"];
+    });
+    $.ajax({
+        contentType:"application/json; charset=utf-8",
+        type: "POST",
+        url:'/api/v1/trip/',
+        dataType:'json',
+        data:JSON.stringify(data),
+        success:function(data) {
+            console.log(data);
+        },
+        error: function (msg) {    
+            alert(msg.responseText);
+        }
+    });
+});
+</script>
+</body>
+</html>

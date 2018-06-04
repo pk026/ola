@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>Driver app</h1>
+<table id="trip_data" style="width:100%">
+  <tr>
+    <th>Waiting</th>
+    <th>Ongoing</th>
+    <th>Completed</th>
+  </tr>
+</table>
+</body>
+<script>
+
+$(document).ready(function(){
+
+    jQuery.support.cors = true;
+    var vars = []
+    var query_params = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < query_params.length; i++)
+        {
+            hash = query_params[i].split('=');
+            vars[hash[0]] = hash[1];
+        }
+    var url = '/api/v1/trip/?source_app=DRIVER_APP&' + "user_id=" + 1
+    $.ajax(
+    {
+        type: "GET",
+        url: url,
+        data: "{}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        cache: false,
+        success: function (data) {
+            
+        var trHTML = '';
+        var i = 0;
+        while (i < 1) {
+            var waiting = '<tr><td>'
+            if (data.waiting[i] !='undefined') {
+               waiting += 'Req Id: ' + data.waiting[i].id + ' cust id: ' + data.waiting[i].user + ' request_time_lapsed: ' + data.waiting[i].request_time_lapsed
+            }    
+              
+            var ongoing = '</td><td>'
+            if (data.ongoing[i]!= 'undefined'){
+                ongoing += 'Req Id: ' +
+                data.ongoing[i].id + ' cust id: ' + data.ongoing[i].user + ' request_time_lapsed: ' + data.ongoing[i].request_time_lapsed 
+            }
+            var completed = '</td><td>'
+            if (data.completed[i] != 'undefined'){
+                completed += 'Req Id: ' +
+                data.completed[i].id + ' cust id: ' + data.completed[i].user + ' request_time_lapsed: ' + data.completed[i].request_time_lapsed 
+            }
+            completed += '</td></tr>'
+              trHTML += waiting + ongoing + completed
+              i += 1
+        }   
+        // $.each(data, function (i, item) {
+            
+        //     trHTML += '<tr><td>' + item.id + '</td><td>' + item.user + '</td><td>' + item.request_time_lapsed + '</td><td>' +  item.status + '</td><td>' +  item.driver + '</td></tr>';
+        // });
+        console.log(trHTML)
+        $('#trip_data').append(trHTML);
+        
+        },
+        
+        error: function (msg) {
+            
+            alert(msg.responseText);
+        }
+    });
+})
+
+</script>
+</html>

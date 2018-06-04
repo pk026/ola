@@ -3,9 +3,22 @@ from __future__ import unicode_literals
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
+from django.shortcuts import render
 from auto.models import Trip, Car
 from auto.serializers import TripSerializer, TripGetSerializer
 from auto.tasks import mark_complete
+
+def home(request):
+    return render(request, 'ola/index.html')
+
+def customer_app(request):
+    return render(request, 'ola/auto/customer.html')
+
+def driver_app(request):
+    return render(request, 'ola/auto/driver_app.html')
+
+def dashboard_app(request):
+    return render(request, 'ola/auto/dashboard.html')
 
 class TripViewset(viewsets.ModelViewSet):
     queryset = Trip.objects.all()

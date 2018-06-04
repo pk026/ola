@@ -17,11 +17,15 @@ from django.conf.urls import url
 from django.contrib import admin
 from rest_framework import routers
 from auto.views import TripViewset
+from auto.views import home, customer_app, driver_app, dashboard_app
 
 router = routers.DefaultRouter()
 router.register(r'api/v1/trip', TripViewset, base_name='event')
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', home, name='home'),
+    url(r'^customer/$', customer_app, name='customer'),
+    url(r'^dashboard/$', dashboard_app, name='dashboard'),
+    url(r'^driver_app/$', driver_app, name='driver_app'),
 ]
 urlpatterns += router.urls

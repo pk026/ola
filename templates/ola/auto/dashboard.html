@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>Dashboard</h1>
+<input type="button" value="Refre" onClick="window.location.reload()">
+<table id="trip_data" style="width:100%">
+  <tr>
+    <th>Request Id</th>
+    <th>Customer Id</th>
+    <th>Time Elapsed</th>
+    <th>Status</th>
+    <th>Driver</th>
+  </tr>
+</table>
+<script>
+
+$(document).ready(function(){
+
+    jQuery.support.cors = true;
+
+    $.ajax(
+    {
+        type: "GET",
+        url: '/api/v1/trip/?source_app=DASHBOARD_APP',
+        data: "{}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        cache: false,
+        success: function (data) {
+            
+        var trHTML = '';
+                
+        $.each(data, function (i, item) {
+            
+            trHTML += '<tr><td>' + item.id + '</td><td>' + item.user + '</td><td>' + item.request_time_lapsed + '</td><td>' +  item.status + '</td><td>' +  item.driver + '</td></tr>';
+        });
+        console.log(trHTML)
+        $('#trip_data').append(trHTML);
+        
+        },
+        
+        error: function (msg) {
+            
+            alert(msg.responseText);
+        }
+    });
+})
+
+</script>
+</body>
+</html>
