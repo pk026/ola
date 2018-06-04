@@ -87,10 +87,7 @@ function callOnWaitingApi(ids){
         url: url,
         data: {"status": "ongoing"},
         contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        headers: {
-                "X-CSRFToken": getCookie('csrftoken')
-        }
+        dataType: "json"
     });
 }
 
