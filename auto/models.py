@@ -7,9 +7,9 @@ from django.db import transaction
 from django.contrib.auth.models import User
 
 class Car(models.Model):
-    ON_TRIP = ''
-    AVAILABLE = ''
-    OFF_DUTY = ''
+    ON_TRIP = 'on_trip'
+    AVAILABLE = 'available'
+    OFF_DUTY = 'off_duty'
     STATUS_OPTIONS = (
         (ON_TRIP, 'on_trip'),
         (AVAILABLE, 'available'),

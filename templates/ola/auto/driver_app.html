@@ -21,6 +21,7 @@
 </body>
 <script>
 
+var ids = []
 $(document).ready(function(){
 
     jQuery.support.cors = true;
@@ -31,7 +32,8 @@ $(document).ready(function(){
             hash = query_params[i].split('=');
             vars[hash[0]] = hash[1];
         }
-    var url = '/api/v1/trip/?source_app=DRIVER_APP&' + "user_id=" + 1
+    var user_id = vars[user_id]?vars[user_id]: 1
+    var url = '/api/v1/trip/?source_app=DRIVER_APP&' + "user_id=" + user_id
     $.ajax(
     {
         type: "GET",
@@ -41,34 +43,31 @@ $(document).ready(function(){
         dataType: "json",
         cache: false,
         success: function (data) {
-            
+            var count = Math.max(data.waiting.length, data.ongoing.length, data.completed.length)
         var trHTML = '';
         var i = 0;
-        while (i < 1) {
+        while (i < count) {
             var waiting = '<tr><td>'
-            if (data.waiting[i] !='undefined') {
-               waiting += 'Req Id: ' + data.waiting[i].id + ' cust id: ' + data.waiting[i].user + ' request_time_lapsed: ' + data.waiting[i].request_time_lapsed
+            if (data.waiting[i]) {
+               waiting += 'Req Id: ' + data.waiting[i].id + ' cust id: ' + data.waiting[i].user + ' request_time_lapsed: ' + data.waiting[i].request_time_lapsed;
+               ids = [data.waiting[i].id, user_id]
+               waiting += "<button onclick=callOnWaitingApi(ids)>Click!</button>"
             }    
               
             var ongoing = '</td><td>'
-            if (data.ongoing[i]!= 'undefined'){
+            if (data.ongoing[i]){
                 ongoing += 'Req Id: ' +
-                data.ongoing[i].id + ' cust id: ' + data.ongoing[i].user + ' request_time_lapsed: ' + data.ongoing[i].request_time_lapsed 
+                data.ongoing[i].id + ' cust id: ' + data.ongoing[i].user + ' request_time_lapsed: ' + data.ongoing[i].request_time_lapsed
             }
             var completed = '</td><td>'
-            if (data.completed[i] != 'undefined'){
+            if (data.completed[i]){
                 completed += 'Req Id: ' +
                 data.completed[i].id + ' cust id: ' + data.completed[i].user + ' request_time_lapsed: ' + data.completed[i].request_time_lapsed 
             }
             completed += '</td></tr>'
               trHTML += waiting + ongoing + completed
               i += 1
-        }   
-        // $.each(data, function (i, item) {
-            
-        //     trHTML += '<tr><td>' + item.id + '</td><td>' + item.user + '</td><td>' + item.request_time_lapsed + '</td><td>' +  item.status + '</td><td>' +  item.driver + '</td></tr>';
-        // });
-        console.log(trHTML)
+        }
         $('#trip_data').append(trHTML);
         
         },
@@ -79,6 +78,18 @@ $(document).ready(function(){
         }
     });
 })
+
+function callOnWaitingApi(ids){
+    var url = '/api/v1/trip/' + ids[0] + '/?user_id=' + ids[1]
+    $.ajax(
+    {
+        type: "PATCH",
+        url: url,
+        data: {"status": "ongoing"},
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+    });
+}
 
 </script>
 </html>
