@@ -62,7 +62,7 @@ $(document).ready(function(){
             var completed = '</td><td>'
             if (data.completed[i]){
                 completed += 'Req Id: ' +
-                data.completed[i].id + ' cust id: ' + data.completed[i].user + ' request_time_lapsed: ' + data.completed[i].request_time_lapsed + ' sec. ago Picked up ' + data.ongoing[i].pickup_time_lapsed + " sec. ago Completed: " + data.ongoing[i].completed_time_lapsed + " sec. ago"
+                data.completed[i].id + ' cust id: ' + data.completed[i].user + ' request_time_lapsed: ' + data.completed[i].request_time_lapsed + ' sec. ago Picked up ' + data.completed[i].pickup_time_lapsed + " sec. ago Completed: " + data.completed[i].completed_time_lapsed + " sec. ago"
             }
             completed += '</td></tr>'
               trHTML += waiting + ongoing + completed
