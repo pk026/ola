@@ -9,14 +9,13 @@ Whoever picks up first gets to service them.
     2. I am using Django user for both customer and drivers
     (we may have separate tables for customer and drivers for different information).
     3. Customer can request a trip any time.
-        a. here client would post user_id on trip api to create a trip in waiting status
-        b. In real scenario client would post source and destination for trip with user credentials
-    4. Driver can select from waiting trips to make a ride.
-        client patch {"status": "ongoing"} on api/v1/trip/{waiting_trip_id}/
-        # in backend we check if calling user is available,
-            we put a lock on trip row to update,
-            change the status to ongoing and assign driver and car to trip.
-    5. on operations dashboard user can refresh and get the trips with its status and timing
+        a. search for pickup (there will be suggestion from google this request is handled in anguler)
+        b. when user select one of suggested items anguler app does ajax request on api: api/v1/company with lat and long in query set
+        c. api (api/v1/company) returns the list of companies (we may have paging in this api but its not implemented yet).
+    4. Customer select one of the listed company to check its available slots
+        a. anguler does ajax with company_id on api: api/v1/slot/
+        b. api returns the future slots for the selected company (we may have paging there and return monthly slots on this api).
+        
 # stacks used
 django, djangorestframework, celery, postgresql, redis
 
